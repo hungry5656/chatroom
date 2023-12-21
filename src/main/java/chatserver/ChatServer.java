@@ -1,0 +1,5 @@
+package chatserver;
+
+class ChatServer {
+    
+}
