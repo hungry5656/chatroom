@@ -1,5 +1,0 @@
-package chatserver;
-
-class ChatServer {
-    
-}
