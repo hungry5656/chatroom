@@ -1,4 +1,4 @@
-package chatserver.gRPC;
+package chatserver.api.rpc;
 
 import io.grpc.Grpc;
 import io.grpc.InsecureServerCredentials;

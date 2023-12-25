@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "session.proto";
+
+option java_package = "io.grpc.chatroom.messagepublish";
+option java_outer_classname = "MessagePublishProto";
+option objc_class_prefix = "MPP";
+
+package messagepublish;
+
+service MessagePublisher {
+  rpc SendMessage (ChatMessagePublish) returns (ChatMessageResponse) {}
+}
+
+message ChatMessagePublish {
+  SessionInfo chatInfo = 1;
+  string messageContent = 2;
+  google.protobuf.Timestamp timeSent = 3;
+}
+
+message ChatMessageResponse {
+  SessionInfo chatInfo = 1;
+  int32 errorId = 2;
+  string errorMsg = 3;
+}
