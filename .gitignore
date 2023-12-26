@@ -28,6 +28,7 @@ target
 
 # ignore idea/vscode
 .idea
+.idea_copy
 .vscode
 
 # ignore task log

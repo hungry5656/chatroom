@@ -2,13 +2,14 @@ syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
 
-option java_package = "io.grpc.chatroom.messagepublish";
+option java_package = "com.hungry5656.chatroom.grpc.components";
 option java_outer_classname = "MessagePublishProto";
 option objc_class_prefix = "MPP";
 
-package messagepublish;
+package components;
 
 message SessionInfo {
-  int32 senderId = 1;
-  int32 receiverId = 2;
+  int32 sessionId = 1;
+  int32 senderId = 2;
+  int32 receiverId = 3;
 }
