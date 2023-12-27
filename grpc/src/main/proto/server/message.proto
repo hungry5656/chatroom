@@ -3,13 +3,14 @@ syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 import "components/session.proto";
 
-option java_package = "com.hungry5656.chatroom.grpc.client";
-option java_outer_classname = "ClientMessageProto";
-option objc_class_prefix = "CMP";
+option java_multiple_files = true;
+option java_package = "com.hungry5656.chatroom.grpc.server";
+option java_outer_classname = "ServerMessageProto";
+option objc_class_prefix = "SMP";
 
-package client;
+package server;
 
-service MessagePushToServer {
+service MessagePushToClient {
   rpc SendMessage (ChatMessagePublish) returns (ChatMessageResponse) {}
 }
 
