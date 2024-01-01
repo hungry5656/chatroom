@@ -1,4 +1,4 @@
-package com.hungry5656.chatserver.components.user;
+package com.hungry5656.chatroom.chatserver.components.user;
 
 public class User {
     private final int userId;

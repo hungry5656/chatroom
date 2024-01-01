@@ -29,25 +29,69 @@ public class ServerRPCServer {
         this(port, ServerUtil.getDefaultSettingsFile());
     }
 
-    public ServerRPCServer(int port, URL featureFile) throws IOException {
+    public ServerRPCServer(int port, URL configFile) throws IOException {
         this(Grpc.newServerBuilderForPort(port, InsecureServerCredentials.create()),
-                port, ServerUtil.parseConfig(featureFile));
+                port, ServerUtil.parseConfig(configFile));
     }
 
     // gRPC server
-    public ServerRPCServer(ServerBuilder<?> serverBuilder, int port, String name) {
+    public ServerRPCServer(ServerBuilder<?> serverBuilder, int port, Collection<?> settings) {
         this.port = port;
-        this.server = serverBuilder.addService(new MessagePushToClientService(name))
+        this.server = serverBuilder
+                .addService(new MessagePushToClientService(settings))
                 .build();
     }
 
-    public
+    public void start() throws IOException {
+        server.start();
+        logger.info("GRPC Server started, listening on " + port);
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                // Use stderr here since the logger may have been reset by its JVM shutdown hook.
+                System.err.println("*** shutting down gRPC server since JVM is shutting down");
+                try {
+                    ServerRPCServer.this.stop();
+                } catch (InterruptedException e) {
+                    e.printStackTrace(System.err);
+                }
+                System.err.println("*** server shut down");
+            }
+        });
+    }
+
+    public void stop() throws InterruptedException {
+        if (server != null) {
+            server.shutdown().awaitTermination(30, TimeUnit.SECONDS);
+        }
+    }
+
+    public void blockUntilShutdown() throws InterruptedException {
+        if (server != null) {
+            server.awaitTermination();
+        }
+    }
 
     private static class MessagePushToClientService extends MessagePushToClientGrpc.MessagePushToClientImplBase {
+        private final Collection<?> settings;
         private final String name;
 
-        MessagePushToClientService(String name) {
-            this.name = name;
+        MessagePushToClientService(Collection<?> settings) {
+            this.settings = settings;
+            this.name = "services";
+        }
+
+        @Override
+        public void sendMessage(ChatMessagePublish request, StreamObserver<ChatMessageResponse> responseObserver) {
+
+            ChatMessageResponse response = ChatMessageResponse
+                    .newBuilder()
+                    .setChatInfo(request.getChatInfo())
+                    .setErrorId(0)
+                    .setErrorMsg("")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
         }
     }
 
