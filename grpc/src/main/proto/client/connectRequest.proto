@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "components/session.proto";
+
+option java_multiple_files = true;
+option java_package = "com.hungry5656.chatroom.grpc.client";
+option java_outer_classname = "ConnectRequestProto";
+option objc_class_prefix = "CRP";
+
+package client;
+
+service RequestConnectionToServer {
+  rpc sendRequest (ConnectionRequest) returns (ConnectionResponse) {}
+}
+
+message ConnectionRequest {
+  int32 userId = 1;
+  google.protobuf.Timestamp timeSent = 2;
+}
+
+message ConnectionResponse {
+  int32 userId = 1;
+  optional int32 errorId = 2;
+  optional string errorMsg = 3;
+  google.protobuf.Timestamp timeReceived = 4;
+}

@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "components/session.proto";
+
+option java_multiple_files = true;
+option java_package = "com.hungry5656.chatroom.grpc.client";
+option java_outer_classname = "SessionRequestProto";
+option objc_class_prefix = "SRP";
+
+package client;
+
+service RequestSessionToServer {
+  rpc sendRequest (SessionRequest) returns (SessionResponse) {}
+}
+
+message SessionRequest {
+  int32 userId = 1;
+  int32 SessionType = 2;
+  repeated int32 requestedUserId = 3;
+  google.protobuf.Timestamp timeSent = 4;
+}
+
+message SessionResponse {
+  int32 userId = 1;
+  optional components.SessionInfo establishedSessionInfo = 2;
+  optional int32 errorId = 3;
+  optional string errorMsg = 4;
+  google.protobuf.Timestamp timeReceived = 5;
+}

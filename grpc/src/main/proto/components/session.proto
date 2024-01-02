@@ -7,7 +7,7 @@ option objc_class_prefix = "SSP";
 package components;
 
 message SessionInfo {
-  int32 sessionId = 1;
+  string sessionId = 1;
   int32 senderId = 2;
-  int32 receiverId = 3;
+  repeated int32 receiverId = 3;
 }
