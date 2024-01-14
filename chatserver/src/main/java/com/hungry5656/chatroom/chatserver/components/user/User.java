@@ -18,7 +18,9 @@ public class User {
     public int addDependencies(){
         return -1;
     }
-    public int instantiateConnection
+    public int instantiateConnection() {
+        return -1;
+    }
 
 
 }

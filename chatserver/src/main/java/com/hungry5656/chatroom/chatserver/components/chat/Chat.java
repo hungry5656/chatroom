@@ -29,7 +29,8 @@ public abstract class Chat {
     }
 
     public List<ChatMessage> retrieveMessages(int messageNum) {
-        Stream.of(cachedMessages).collect(Collections.)
+//        Stream.of(cachedMessages).collect(Collections.)
+        return null;
     }
 
     public String getChatId() {
